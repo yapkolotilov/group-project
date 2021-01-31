@@ -21,6 +21,7 @@ data class ClientEntity(
         @Column(name = "owner")
         val owner: String,
         @OneToMany(targetEntity = TrafficEntity::class, cascade = [CascadeType.ALL])
+        @JoinColumn(name = "clientId")
         val traffic: List<TrafficEntity>,
         @Column(name = "phone")
         val phone: String,
