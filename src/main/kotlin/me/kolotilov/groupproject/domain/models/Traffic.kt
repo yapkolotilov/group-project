@@ -1,7 +1,7 @@
 package me.kolotilov.groupproject.domain.models
 
 import me.kolotilov.groupproject.database.models.TrafficEntity
-import java.util.*
+import org.joda.time.DateTime
 
 /**
  * Траффик пользователя за день.
@@ -10,15 +10,15 @@ import java.util.*
  * @param amount Траффик в МБ.
  */
 data class Traffic(
-        val date: Date,
+        val date: DateTime,
         val amount: Int,
         val id: Int = 0
 )
 
 fun TrafficEntity.toTraffic() = Traffic(
-        date, amount, id
+        DateTime(date), amount, id
 )
 
 fun Traffic.toTrafficEntity() = TrafficEntity(
-        date, amount, id
+        date.toDate(), amount, id
 )

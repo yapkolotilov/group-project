@@ -1,5 +1,6 @@
 package me.kolotilov.groupproject.database.models
 
+import java.util.*
 import javax.persistence.*
 
 
@@ -31,6 +32,10 @@ data class ClientEntity(
         val mac: String,
         @Column(name = "ip")
         val ip: String,
+        @Column(name = "registeredAt")
+        val registeredAt: Date,
+        @Column(name = "lastPaymentAt")
+        val lastPaymentAt: Date,
         @Id
         @GeneratedValue
         @Column(name = "id")

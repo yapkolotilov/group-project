@@ -14,5 +14,5 @@ data class TrafficDto(
 )
 
 fun Traffic.toTrafficDto() = TrafficDto(
-        date, amount, id
+        date.toDate(), amount, id
 )

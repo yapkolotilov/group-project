@@ -2,6 +2,7 @@ package me.kolotilov.groupproject.controllers.models
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import me.kolotilov.groupproject.domain.models.Client
+import java.util.*
 
 /**
  * Полная информация по клиенту.
@@ -29,10 +30,15 @@ data class ClientDetailsDto(
         val ip: String,
         @JsonProperty("traffic")
         val traffic: List<TrafficDto>,
+        @JsonProperty("registeredAt")
+        val registeredAt: Date,
+        @JsonProperty("lastPaymentAt")
+        val lastPaymentAt: Date,
         @JsonProperty("id")
         val id: Int = 0
 )
 
 fun Client.toClientDetails() = ClientDetailsDto(
-        name, balance, enabled, tariff, contractName, owner, phone, email, mac, ip, traffic.map { it.toTrafficDto() }, id
+        name, balance, enabled, tariff, contractName, owner, phone, email, mac, ip, traffic.map { it.toTrafficDto() },
+        registeredAt.toDate(), lastPaymentAt.toDate(), id
 )

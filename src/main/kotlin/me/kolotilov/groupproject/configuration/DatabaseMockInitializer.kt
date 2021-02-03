@@ -3,9 +3,9 @@ package me.kolotilov.groupproject.configuration
 import me.kolotilov.groupproject.domain.models.Client
 import me.kolotilov.groupproject.domain.models.Traffic
 import me.kolotilov.groupproject.domain.services.ClientService
+import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.util.*
 import javax.annotation.PostConstruct
 
 @Component
@@ -31,22 +31,20 @@ private class DatabaseMockInitializer {
                             email = "yapkolotilov@gmail.com",
                             mac = "AA:AA:AA:AA:AA:AA",
                             ip = "255.255.255.255",
-                            traffic = traffic()
+                            traffic = traffic(),
+                            lastPaymentAt = DateTime.now().minusDays(1),
+                            registeredAt = DateTime.now().minusDays(10)
                     ),
             )
         }
     }
 
     private fun traffic() = listOf<Traffic>(
-            Traffic(Date(), 500),
-            Traffic(dayAgo(1), 500),
-            Traffic(dayAgo(2), 500),
-            Traffic(dayAgo(3), 500)
+            Traffic(DateTime.now(), 500),
+            Traffic(DateTime.now().minusDays(1), 500),
+            Traffic(DateTime.now().minusDays(3), 500),
+            Traffic(DateTime.now().minusWeeks(1), 500)
     )
 
-    private fun dayAgo(days: Int): Date {
-        return Calendar.getInstance().apply {
-            set(Calendar.DAY_OF_MONTH, get(Calendar.DAY_OF_MONTH) - days)
-        }.time
-    }
+
 }

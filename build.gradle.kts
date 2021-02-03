@@ -14,6 +14,7 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -23,6 +24,7 @@ dependencies {
 
     runtimeOnly("mysql:mysql-connector-java")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
+    compile("joda-time", "joda-time", "2.10.9")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

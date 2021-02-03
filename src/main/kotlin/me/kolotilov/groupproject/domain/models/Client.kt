@@ -1,6 +1,8 @@
 package me.kolotilov.groupproject.domain.models
 
 import me.kolotilov.groupproject.database.models.ClientEntity
+import me.kolotilov.groupproject.utils.toDateTime
+import org.joda.time.DateTime
 
 
 /**
@@ -31,13 +33,17 @@ data class Client(
         val email: String,
         val mac: String,
         val ip: String,
+        val registeredAt: DateTime,
+        val lastPaymentAt: DateTime,
         val id: Int = 0
 )
 
 fun ClientEntity.toClient() = Client(
-        name, balance, enabled, tariff, contractName, contractData, owner, traffic.map { it.toTraffic() }, phone, email, mac, ip, id
+        name, balance, enabled, tariff, contractName, contractData, owner, traffic.map { it.toTraffic() }, phone,
+        email, mac, ip, registeredAt.toDateTime(), lastPaymentAt.toDateTime(), id
 )
 
 fun Client.toClientEntity() = ClientEntity(
-        name, balance, enabled, tariff, contractName, contractData, owner, traffic.map { it.toTrafficEntity() }, phone, email, mac, ip, id
+        name, balance, enabled, tariff, contractName, contractData, owner, traffic.map { it.toTrafficEntity() }, phone,
+        email, mac, ip, registeredAt.toDate(), lastPaymentAt.toDate(), id
 )
