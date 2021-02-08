@@ -1,5 +1,7 @@
 package me.kolotilov.groupproject.database.models
 
+import me.kolotilov.groupproject.domain.models.Traffic
+import org.joda.time.DateTime
 import java.util.*
 import javax.persistence.*
 
@@ -14,4 +16,12 @@ data class TrafficEntity(
         @Column(name = "id")
         @GeneratedValue
         val id: Int = 0
+)
+
+fun TrafficEntity.toTraffic() = Traffic(
+        DateTime(date), amount, id
+)
+
+fun Traffic.toTrafficEntity() = TrafficEntity(
+        date.toDate(), amount, id
 )

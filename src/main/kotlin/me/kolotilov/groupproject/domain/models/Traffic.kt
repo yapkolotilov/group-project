@@ -1,6 +1,5 @@
 package me.kolotilov.groupproject.domain.models
 
-import me.kolotilov.groupproject.database.models.TrafficEntity
 import org.joda.time.DateTime
 
 /**
@@ -15,10 +14,3 @@ data class Traffic(
         val id: Int = 0
 )
 
-fun TrafficEntity.toTraffic() = Traffic(
-        DateTime(date), amount, id
-)
-
-fun Traffic.toTrafficEntity() = TrafficEntity(
-        date.toDate(), amount, id
-)

@@ -1,15 +1,18 @@
 package me.kolotilov.groupproject.domain.services
 
+import me.kolotilov.groupproject.database.models.toClient
+import me.kolotilov.groupproject.database.models.toClientEntity
 import me.kolotilov.groupproject.database.repositories.ClientRepository
 import me.kolotilov.groupproject.domain.models.Client
-import me.kolotilov.groupproject.domain.models.toClient
-import me.kolotilov.groupproject.domain.models.toClientEntity
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 
 interface ClientService {
 
     fun getAll(): List<Client>
+
+    fun getPaged(startIndex: Int, count: Int): List<Client>
 
     fun search(query: String): List<Client>
 
@@ -32,6 +35,10 @@ private class ClientServiceImpl : ClientService {
 
     override fun getAll(): List<Client> {
         return clientRepository.findAll().map { it.toClient() }
+    }
+
+    override fun getPaged(startIndex: Int, count: Int): List<Client> {
+        return clientRepository.findAll(PageRequest.of(startIndex, count)).toList().map { it.toClient() }
     }
 
     override fun search(query: String): List<Client> {

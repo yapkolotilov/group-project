@@ -1,7 +1,5 @@
 package me.kolotilov.groupproject.domain.models
 
-import me.kolotilov.groupproject.database.models.ClientEntity
-import me.kolotilov.groupproject.utils.toDateTime
 import org.joda.time.DateTime
 
 
@@ -11,39 +9,21 @@ import org.joda.time.DateTime
  * @param name ФИО.
  * @param balance Баланс лицевого счёта.
  * @param enabled Подключён ли клиент.
- * @param tariff Тариф.
- * @param contractName Договор.
- * @param contractData Содержимое договора.
- * @param owner На кого заключён договор.
  * @param phone Телефон.
+ * @param registeredAt Дата регистрации.
  * @param email Электронная почта.
- * @param mac MAC-адрес.
- * @param ip IP-адрес.
+ * @param loans Активные кредиты.
+ * @param tariffs Тарифы.
+ * @param id ID.
  */
 data class Client(
         val name: String,
         val balance: Int,
         val enabled: Boolean,
-        val tariff: String,
-        val contractName: String,
-        val contractData: String,
-        val owner: String,
-        val traffic: List<Traffic>,
         val phone: String,
         val email: String,
-        val mac: String,
-        val ip: String,
         val registeredAt: DateTime,
-        val lastPaymentAt: DateTime,
+        val tariffs: List<Tariff>,
+        val loans: List<Loan>,
         val id: Int = 0
-)
-
-fun ClientEntity.toClient() = Client(
-        name, balance, enabled, tariff, contractName, contractData, owner, traffic.map { it.toTraffic() }, phone,
-        email, mac, ip, registeredAt.toDateTime(), lastPaymentAt.toDateTime(), id
-)
-
-fun Client.toClientEntity() = ClientEntity(
-        name, balance, enabled, tariff, contractName, contractData, owner, traffic.map { it.toTrafficEntity() }, phone,
-        email, mac, ip, registeredAt.toDate(), lastPaymentAt.toDate(), id
 )

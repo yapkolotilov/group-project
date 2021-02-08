@@ -1,5 +1,7 @@
 package me.kolotilov.groupproject.database.models
 
+import me.kolotilov.groupproject.domain.models.Client
+import me.kolotilov.groupproject.utils.toDateTime
 import java.util.*
 import javax.persistence.*
 
@@ -13,31 +15,44 @@ data class ClientEntity(
         val balance: Int,
         @Column(name = "enabled")
         val enabled: Boolean,
-        @Column(name = "tariff")
-        val tariff: String,
-        @Column(name = "contractName")
-        val contractName: String,
-        @Column(name = "contractData")
-        val contractData: String,
-        @Column(name = "owner")
-        val owner: String,
-        @OneToMany(targetEntity = TrafficEntity::class, cascade = [CascadeType.ALL])
-        @JoinColumn(name = "clientId")
-        val traffic: List<TrafficEntity>,
         @Column(name = "phone")
         val phone: String,
         @Column(name = "email")
         val email: String,
-        @Column(name = "mac")
-        val mac: String,
-        @Column(name = "ip")
-        val ip: String,
         @Column(name = "registeredAt")
         val registeredAt: Date,
-        @Column(name = "lastPaymentAt")
-        val lastPaymentAt: Date,
+        @OneToMany(cascade = [CascadeType.ALL])
+        @JoinColumn(name = "clientId")
+        val loans: List<LoanEntity>,
+        @OneToMany(cascade = [CascadeType.ALL])
+        @JoinColumn(name = "clientId")
+        val tariffs: List<TariffEntity>,
         @Id
         @GeneratedValue
         @Column(name = "id")
         val id: Int = 0
+)
+
+fun ClientEntity.toClient() = Client(
+        name = name,
+        balance = balance,
+        enabled = enabled,
+        phone = phone,
+        email = email,
+        registeredAt = registeredAt.toDateTime(),
+        loans = loans.map { it.toLoan() },
+        tariffs = tariffs.map { it.toTariff() },
+        id = id
+)
+
+fun Client.toClientEntity() = ClientEntity(
+        name = name,
+        balance = balance,
+        enabled = enabled,
+        phone = phone,
+        email = email,
+        registeredAt = registeredAt.toDate(),
+        loans = loans.map { it.toLoanEntity() },
+        tariffs = tariffs.map { it.toTariffEntity() },
+        id = id
 )

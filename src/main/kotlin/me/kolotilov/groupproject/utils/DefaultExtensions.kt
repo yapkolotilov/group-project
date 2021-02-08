@@ -1,6 +1,7 @@
 package me.kolotilov.groupproject.utils
 
 import org.joda.time.DateTime
+import org.joda.time.Duration
 import org.joda.time.Interval
 import java.util.*
 
@@ -18,6 +19,14 @@ fun DateTime.monthInterval(): Interval {
     val startDate = day.withDayOfMonth(0).withTimeAtStartOfDay()
     val endDate = day.withDayOfMonth(day.dayOfMonth().maximumValue)
     return Interval(startDate, endDate)
+}
+
+fun Duration.toDate(): Date {
+    return Date(millis)
+}
+
+fun Date.toDuration(): Duration {
+    return Duration(time)
 }
 
 inline fun <A, B, C> Pair<A, B>.replaceFirst(newFirst: (A) -> C): Pair<C, B> {

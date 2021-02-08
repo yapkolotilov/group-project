@@ -1,4 +1,4 @@
-package me.kolotilov.groupproject.controllers.models
+package me.kolotilov.groupproject.controllers.output
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import me.kolotilov.groupproject.domain.models.Client
@@ -7,6 +7,7 @@ import me.kolotilov.groupproject.domain.models.Client
  * Модель для списка клиентов.
  *
  * @param name ФИО.
+ * @param id ID.
  */
 data class ClientOverviewDto(
         @JsonProperty("name")

@@ -1,9 +1,17 @@
-package me.kolotilov.groupproject.controllers.models
+package me.kolotilov.groupproject.controllers.output
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import me.kolotilov.groupproject.domain.models.Traffic
 import java.util.*
 
+/**
+ * Пользовательский траффик.
+ *
+ *
+ * @param date Дата.
+ * @param amount Траффик в МБ.
+ * @param id ID.
+ */
 data class TrafficDto(
         @JsonProperty("date")
         val date: Date,

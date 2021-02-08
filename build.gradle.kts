@@ -24,7 +24,8 @@ dependencies {
 
     runtimeOnly("mysql:mysql-connector-java")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
-    compile("joda-time", "joda-time", "2.10.9")
+    implementation("joda-time", "joda-time", "2.10.9")
+    implementation("org.springframework.boot", "spring-boot-starter-validation")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
