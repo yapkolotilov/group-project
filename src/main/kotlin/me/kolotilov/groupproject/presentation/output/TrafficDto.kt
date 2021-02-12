@@ -1,4 +1,4 @@
-package me.kolotilov.groupproject.controllers.output
+package me.kolotilov.groupproject.presentation.output
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import me.kolotilov.groupproject.domain.models.Traffic
@@ -22,5 +22,7 @@ data class TrafficDto(
 )
 
 fun Traffic.toTrafficDto() = TrafficDto(
-        date.toDate(), amount, id
+        date = date.toDate(),
+        amount = amount,
+        id = id
 )

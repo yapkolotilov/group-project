@@ -1,9 +1,8 @@
 package me.kolotilov.groupproject.configuration
 
-import me.kolotilov.groupproject.domain.models.Client
-import me.kolotilov.groupproject.domain.models.Tariff
-import me.kolotilov.groupproject.domain.models.Traffic
+import me.kolotilov.groupproject.domain.models.*
 import me.kolotilov.groupproject.domain.services.ClientService
+import me.kolotilov.groupproject.domain.services.UserService
 import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -14,6 +13,9 @@ private class DatabaseMockInitializer {
 
     @Autowired
     private lateinit var clientService: ClientService
+
+    @Autowired
+    private lateinit var userService: UserService
 
     @PostConstruct
     fun fillData() {
@@ -42,6 +44,22 @@ private class DatabaseMockInitializer {
                             ),
                             loans = emptyList()
                     ),
+            )
+        }
+
+        userService.apply {
+            clear()
+            createAll(
+                User(
+                    "admin",
+                    "admin",
+                    Role.ADMIN
+                ),
+                User(
+                    "monty",
+                    "monty",
+                    Role.MONTY
+                )
             )
         }
     }

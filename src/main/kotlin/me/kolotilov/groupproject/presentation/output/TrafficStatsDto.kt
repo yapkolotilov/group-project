@@ -1,4 +1,4 @@
-package me.kolotilov.groupproject.controllers.output
+package me.kolotilov.groupproject.presentation.output
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import me.kolotilov.groupproject.domain.models.TrafficStats
@@ -23,5 +23,8 @@ data class TrafficStatsDto(
 )
 
 fun TrafficStats.toTrafficStatsDto() = TrafficStatsDto(
-        hour, fiveHours, day, week
+        hour = hour,
+        fiveHours = fiveHours,
+        day = day,
+        week = week
 )

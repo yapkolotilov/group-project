@@ -1,4 +1,4 @@
-package me.kolotilov.groupproject.controllers.output
+package me.kolotilov.groupproject.presentation.output
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import me.kolotilov.groupproject.domain.models.Loan
@@ -27,9 +27,15 @@ data class LoanDto(
 )
 
 fun Loan.toLoanDto() = LoanDto(
-        amount, startDate.toDate(), duration.toDate(), id
+        amount = amount,
+        startDate = startDate.toDate(),
+        duration = duration.toDate(),
+        id = id
 )
 
 fun LoanDto.toLoan() = Loan(
-        amount, startDate.toDateTime(), duration.toDuration(), id
+        amount = amount,
+        startDate = startDate.toDateTime(),
+        duration = duration.toDuration(),
+        id = id
 )

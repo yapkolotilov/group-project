@@ -19,9 +19,13 @@ data class TrafficEntity(
 )
 
 fun TrafficEntity.toTraffic() = Traffic(
-        DateTime(date), amount, id
+        date = DateTime(date),
+        amount = amount,
+        id = id
 )
 
 fun Traffic.toTrafficEntity() = TrafficEntity(
-        date.toDate(), amount, id
+        date = date.toDate(),
+        amount = amount,
+        id = id
 )
