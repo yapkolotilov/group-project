@@ -1,16 +1,20 @@
-package me.kolotilov.groupproject.controllers
+package me.kolotilov.groupproject.presentation
 
-import me.kolotilov.groupproject.controllers.input.ClientEditDto
-import me.kolotilov.groupproject.controllers.input.GiveLoanDto
-import me.kolotilov.groupproject.controllers.input.toClient
-import me.kolotilov.groupproject.controllers.input.toLoan
-import me.kolotilov.groupproject.controllers.output.ClientDetailsDto
-import me.kolotilov.groupproject.controllers.output.ClientOverviewDto
-import me.kolotilov.groupproject.controllers.output.toClientDetailsDto
-import me.kolotilov.groupproject.controllers.output.toClientOverview
 import me.kolotilov.groupproject.domain.models.Client
+import me.kolotilov.groupproject.domain.models.Role
 import me.kolotilov.groupproject.domain.services.ClientService
+import me.kolotilov.groupproject.domain.services.UserService
+import me.kolotilov.groupproject.presentation.input.EditClientDto
+import me.kolotilov.groupproject.presentation.input.GiveLoanDto
+import me.kolotilov.groupproject.presentation.input.apply
+import me.kolotilov.groupproject.presentation.input.toLoan
+import me.kolotilov.groupproject.presentation.output.ClientDetailsDto
+import me.kolotilov.groupproject.presentation.output.ClientOverviewDto
+import me.kolotilov.groupproject.presentation.output.toClientDetailsDto
+import me.kolotilov.groupproject.presentation.output.toClientOverview
+import me.kolotilov.groupproject.utils.restrictRole
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.annotation.CurrentSecurityContext
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -19,6 +23,8 @@ private class ClientsController {
 
     @Autowired
     private lateinit var clientService: ClientService
+    @Autowired
+    private lateinit var userService: UserService
 
     /**
      * Возвращает всех клиентов в системе.
@@ -62,10 +68,16 @@ private class ClientsController {
     /**
      * Меняет данные клиента.
      */
-    @PutMapping("/{id}")
-    fun edit(@PathVariable("id") id: Int, @RequestBody newClient: ClientEditDto): Client {
+    @PostMapping("/{id}")
+    fun edit(
+        @PathVariable("id") id: Int,
+        @RequestBody newClient: EditClientDto,
+        @CurrentSecurityContext(expression = "authentication?.name") username: String
+    ): Client {
+        val user = userService.getByUsername(username)!!
+        restrictRole(user, newClient.balance, Role.ADMIN)
         val client = clientService.get(id)
-        return clientService.update(newClient.toClient(client))
+        return clientService.update(client.apply(newClient))
     }
 
     /**
@@ -78,7 +90,7 @@ private class ClientsController {
     fun giveCredit(@PathVariable("id") id: Int, @RequestBody loan: GiveLoanDto): Client {
         val client = clientService.get(id)
         val newClient = client.copy(
-                loans = client.loans + loan.toLoan()
+            loans = client.loans + loan.toLoan()
         )
         return clientService.update(newClient)
     }
@@ -93,7 +105,7 @@ private class ClientsController {
     fun retrieveCredit(@PathVariable("id") id: Int, @PathVariable("loanId") loanId: Int): Client {
         val client = clientService.get(id)
         val newClient = client.copy(
-                loans = client.loans.filter { it.id != loanId }
+            loans = client.loans.filter { it.id != loanId }
         )
         return clientService.update(newClient)
     }

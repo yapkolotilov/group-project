@@ -25,9 +25,15 @@ data class LoanEntity(
 )
 
 fun LoanEntity.toLoan() = Loan(
-        amount, startDate.toDateTime(), duration.toDuration(), id
+        amount = amount,
+        startDate = startDate.toDateTime(),
+        duration = duration.toDuration(),
+        id = id
 )
 
 fun Loan.toLoanEntity() = LoanEntity(
-        amount, startDate.toDate(), duration.toDate(), id
+        amount = amount,
+        startDate = startDate.toDate(),
+        duration = duration.toDate(),
+        id = id
 )

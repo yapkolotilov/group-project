@@ -1,9 +1,9 @@
-package me.kolotilov.groupproject.controllers
+package me.kolotilov.groupproject.presentation
 
-import me.kolotilov.groupproject.controllers.output.PaymentStatsDto
-import me.kolotilov.groupproject.controllers.output.TrafficStatsDto
-import me.kolotilov.groupproject.controllers.output.toPaymentStatsDto
-import me.kolotilov.groupproject.controllers.output.toTrafficStatsDto
+import me.kolotilov.groupproject.presentation.output.PaymentStatsDto
+import me.kolotilov.groupproject.presentation.output.TrafficStatsDto
+import me.kolotilov.groupproject.presentation.output.toPaymentStatsDto
+import me.kolotilov.groupproject.presentation.output.toTrafficStatsDto
 import me.kolotilov.groupproject.domain.services.ClientService
 import me.kolotilov.groupproject.domain.services.StatsService
 import me.kolotilov.groupproject.utils.replaceFirst

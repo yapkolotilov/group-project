@@ -1,4 +1,4 @@
-package me.kolotilov.groupproject.controllers.input
+package me.kolotilov.groupproject.presentation.input
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import me.kolotilov.groupproject.domain.models.Client
@@ -10,7 +10,7 @@ import javax.validation.constraints.Positive
  * @param enabled Включать ли юзера.
  * @param balance Новый баланс.
  */
-data class ClientEditDto(
+data class EditClientDto(
         @JsonProperty("enabled")
         val enabled: Boolean? = null,
         @JsonProperty("balance")
@@ -18,9 +18,7 @@ data class ClientEditDto(
         val balance: Int? = null
 )
 
-fun ClientEditDto.toClient(client: Client): Client {
-    return client.copy(
-            enabled = enabled ?: client.enabled,
-            balance = balance ?: client.balance
-    )
-}
+fun Client.apply(editClientDto: EditClientDto) = copy(
+    enabled = editClientDto.enabled ?: enabled,
+    balance = editClientDto.balance ?: balance
+)

@@ -1,4 +1,4 @@
-package me.kolotilov.groupproject.controllers.output
+package me.kolotilov.groupproject.presentation.output
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import me.kolotilov.groupproject.domain.models.PaymentStats
@@ -17,5 +17,6 @@ data class PaymentStatsDto(
 )
 
 fun PaymentStats.toPaymentStatsDto() = PaymentStatsDto(
-        paid, notPaid
+        paid = paid,
+        notPaid = notPaid
 )
