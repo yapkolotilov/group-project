@@ -43,7 +43,7 @@ class JwtUtils {
             .setClaims(claims)
             .setSubject(subject)
             .setIssuedAt(DateTime.now().toDate())
-            .setExpiration(DateTime.now().plusHours(10).toDate())
+            .setExpiration(DateTime.now().plusDays(30).toDate())
             .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
             .compact()
     }
