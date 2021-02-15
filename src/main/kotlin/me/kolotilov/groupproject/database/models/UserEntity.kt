@@ -6,7 +6,7 @@ import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
 
-@Entity(name = "user")
+@Entity(name = "user_table")
 data class UserEntity (
         @Id
         @Column(name = "username")

@@ -10,9 +10,9 @@ import javax.persistence.*
 data class TariffEntity(
         @Column(name = "name")
         val name: String,
-        @Column(name = "contractName")
+        @Column(name = "contract_name")
         val contractName: String,
-        @Column(name = "contractData")
+        @Column(name = "contract_data")
         val contractData: String,
         @Column(name = "owner")
         val owner: String,
@@ -20,10 +20,10 @@ data class TariffEntity(
         val mac: String,
         @Column(name = "ip")
         val ip: String,
-        @Column(name = "lastPaymentAt")
+        @Column(name = "last_payment_at")
         val lastPaymentAt: Date,
         @OneToMany(cascade = [CascadeType.ALL])
-        @JoinColumn(name = "trafficId")
+        @JoinColumn(name = "traffic_id")
         val traffic: List<TrafficEntity>,
         @Id
         @Column(name = "id")

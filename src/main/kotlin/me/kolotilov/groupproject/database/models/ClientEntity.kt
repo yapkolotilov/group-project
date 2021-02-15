@@ -19,13 +19,13 @@ data class ClientEntity(
         val phone: String,
         @Column(name = "email")
         val email: String,
-        @Column(name = "registeredAt")
+        @Column(name = "registered_at")
         val registeredAt: Date,
         @OneToMany(cascade = [CascadeType.ALL])
-        @JoinColumn(name = "clientId")
+        @JoinColumn(name = "client_id")
         val loans: List<LoanEntity>,
         @OneToMany(cascade = [CascadeType.ALL])
-        @JoinColumn(name = "clientId")
+        @JoinColumn(name = "client_id")
         val tariffs: List<TariffEntity>,
         @Id
         @GeneratedValue
