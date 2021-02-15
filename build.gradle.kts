@@ -35,8 +35,7 @@ dependencies {
     runtimeOnly("org.postgresql", "postgresql")
 
     // Swagger:
-    implementation("io.springfox", "springfox-swagger-ui:3.0.0")
-    runtimeOnly("io.springfox", "springfox-swagger-ui", "2.9.2")
+    implementation("io.springfox", "springfox-swagger-ui", "2.9.2")
 
     // JWT:
     implementation("io.jsonwebtoken", "jjwt", "0.9.1")
