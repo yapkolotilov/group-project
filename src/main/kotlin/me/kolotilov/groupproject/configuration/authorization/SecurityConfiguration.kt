@@ -25,6 +25,13 @@ import org.springframework.web.filter.OncePerRequestFilter
 )
 class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 
+    private val authWhiteList = arrayOf(
+        "/swagger-resources/**",
+        "/swagger-ui.html",
+        "/v2/api-docs",
+        "/webjars/**"
+    )
+
     @Autowired
     @Qualifier(UserDetailsServiceImpl.QUALIFIER)
     private lateinit var userDetailsService: UserDetailsService
@@ -41,6 +48,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
         http.csrf().disable()
             .authorizeRequests()
             .antMatchers("/login").permitAll()
+            .antMatchers(*authWhiteList).permitAll()
             .anyRequest().authenticated()
             .and().sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
