@@ -1,5 +1,7 @@
 package me.kolotilov.groupproject.presentation
 
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
 import me.kolotilov.groupproject.domain.models.Client
 import me.kolotilov.groupproject.domain.models.Role
 import me.kolotilov.groupproject.domain.services.ClientService
@@ -26,51 +28,52 @@ private class ClientsController {
     @Autowired
     private lateinit var userService: UserService
 
-    /**
-     * Возвращает всех клиентов в системе.
-     */
+
+    @ApiOperation("Возвращает всех клиентов в системе.")
     @GetMapping
     fun getAll(): List<ClientOverviewDto> {
         return clientService.getAll().map { it.toClientOverview() }
     }
 
-    /**
-     * Пагинирует клиентов.
-     *
-     * @param pageNumber Номер страницы.
-     * @param count Размер страницы.
-     */
+    @ApiOperation("Пагинирует клиентов.")
     @GetMapping("paged/{pageNumber},{count}")
-    fun getPaged(pageNumber: Int, count: Int): List<ClientOverviewDto> {
+    fun getPaged(
+        @ApiParam("Номер страницы.")
+        @PathVariable("pageNumber")
+        pageNumber: Int,
+
+        @ApiParam("Размер страницы.")
+        @PathVariable("count")
+        count: Int
+    ): List<ClientOverviewDto> {
         return clientService.getPaged(pageNumber, count).map { it.toClientOverview() }
     }
 
-    /**
-     * Возвращает клиента по id.
-     *
-     * @param id ID клиента.
-     */
+    @ApiOperation("Возвращает клиента по id.")
     @GetMapping("/{id}")
-    fun get(@PathVariable("id") id: Int): ClientDetailsDto {
+    fun get(
+        @ApiParam("ID клиента.")
+        @PathVariable("id") id: Int
+    ): ClientDetailsDto {
         return clientService.get(id).toClientDetailsDto()
     }
 
-    /**
-     * Ищет клиента по запросу.
-     *
-     * @param query Запрос.
-     */
+    @ApiOperation("Ищет клиента по запросу.")
     @GetMapping("/search")
-    fun search(@RequestParam("query") query: String): List<ClientOverviewDto> {
+    fun search(
+        @ApiParam("Запрос.")
+        @RequestParam("query") query: String
+    ): List<ClientOverviewDto> {
         return clientService.search(query).map { it.toClientOverview() }
     }
 
-    /**
-     * Меняет данные клиента.
-     */
+    @ApiOperation("Меняет данные клиента.")
     @PostMapping("/{id}")
     fun edit(
+        @ApiParam("ID клиента.")
         @PathVariable("id") id: Int,
+
+        @ApiParam("Новые данные клиента.")
         @RequestBody newClient: EditClientDto,
         @CurrentSecurityContext(expression = "authentication?.name") username: String
     ): Client {
@@ -80,14 +83,15 @@ private class ClientsController {
         return clientService.update(client.apply(newClient))
     }
 
-    /**
-     * Даёт пользователю кредит.
-     *
-     * @param id ID клиента.
-     * @param loan Данные кредита.
-     */
+    @ApiOperation("Даёт пользователю кредит.")
     @PostMapping("/{id}/giveCredit")
-    fun giveCredit(@PathVariable("id") id: Int, @RequestBody loan: GiveLoanDto): Client {
+    fun giveCredit(
+        @ApiParam("ID клиента.")
+        @PathVariable("id") id: Int,
+
+        @ApiParam("Данные кредита.")
+        @RequestBody loan: GiveLoanDto
+    ): Client {
         val client = clientService.get(id)
         val newClient = client.copy(
             loans = client.loans + loan.toLoan()
@@ -95,14 +99,15 @@ private class ClientsController {
         return clientService.update(newClient)
     }
 
-    /**
-     * Забирает кредит у пользователя.
-     *
-     * @param id ID пользователя.
-     * @param loanId Id пользователя.
-     */
+    @ApiOperation("Забирает кредит у пользователя.")
     @PostMapping("{id}/retrieveCredit/{loanId}")
-    fun retrieveCredit(@PathVariable("id") id: Int, @PathVariable("loanId") loanId: Int): Client {
+    fun retrieveCredit(
+        @ApiParam("ID пользователя.")
+        @PathVariable("id") id: Int,
+
+        @ApiParam("ID Кредита.")
+        @PathVariable("loanId") loanId: Int
+    ): Client {
         val client = clientService.get(id)
         val newClient = client.copy(
             loans = client.loans.filter { it.id != loanId }

@@ -19,18 +19,29 @@ data class ClientEntity(
         val phone: String,
         @Column(name = "email")
         val email: String,
-        @Column(name = "registeredAt")
+        @Column(name = "registered_at")
         val registeredAt: Date,
         @OneToMany(cascade = [CascadeType.ALL])
-        @JoinColumn(name = "clientId")
+        @JoinColumn(name = "client_id")
         val loans: List<LoanEntity>,
+        @Column(name = "contract_name")
+        val contractName: String,
+        @Column(name = "contract_data")
+        val contractData: String?,
+        @Column(name = "owner")
+        val owner: String,
+        @Column(name = "mac")
+        val mac: String,
+        @Column(name = "ip")
+        val ip: String,
+        @Column(name = "last_payment_at")
+        val lastPaymentAt: Date,
         @OneToMany(cascade = [CascadeType.ALL])
-        @JoinColumn(name = "clientId")
-        val tariffs: List<TariffEntity>,
+        @JoinColumn(name = "traffic_id")
+        val traffic: List<TrafficEntity>,
         @Id
-        @GeneratedValue
-        @Column(name = "id")
-        val id: Int = 0
+        @Column(name = "contract_number")
+        val contractNumber: Int = 0
 )
 
 fun ClientEntity.toClient() = Client(
@@ -41,8 +52,14 @@ fun ClientEntity.toClient() = Client(
         email = email,
         registeredAt = registeredAt.toDateTime(),
         loans = loans.map { it.toLoan() },
-        tariffs = tariffs.map { it.toTariff() },
-        id = id
+        contractName = contractName,
+        contractData = contractData,
+        owner = owner,
+        ip = ip,
+        mac = mac,
+        lastPaymentAt = lastPaymentAt.toDateTime(),
+        traffic = traffic.map { it.toTraffic() },
+        contractNumber = contractNumber
 )
 
 fun Client.toClientEntity() = ClientEntity(
@@ -53,6 +70,12 @@ fun Client.toClientEntity() = ClientEntity(
         email = email,
         registeredAt = registeredAt.toDate(),
         loans = loans.map { it.toLoanEntity() },
-        tariffs = tariffs.map { it.toTariffEntity() },
-        id = id
+        contractName = contractName,
+        contractData = contractData,
+        owner = owner,
+        ip = ip,
+        mac = mac,
+        lastPaymentAt = lastPaymentAt.toDate(),
+        traffic = traffic.map { it.toTrafficEntity() },
+        contractNumber = contractNumber
 )

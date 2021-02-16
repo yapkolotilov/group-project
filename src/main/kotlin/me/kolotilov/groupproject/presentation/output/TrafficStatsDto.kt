@@ -1,23 +1,25 @@
 package me.kolotilov.groupproject.presentation.output
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import io.swagger.annotations.ApiModel
+import io.swagger.annotations.ApiModelProperty
 import me.kolotilov.groupproject.domain.models.TrafficStats
 
-/**
- * Статистика по пользовательскому траффику (мб).
- *
- * @param hour Траффик за последний час.
- * @param fiveHours Траффик за последние 5 часов.
- * @param day Траффик за последний день.
- * @param week Траффик за последнюю неделю.
- */
+@ApiModel("TrafficStatsDto: Статистика по пользовательскому траффику (мб).")
 data class TrafficStatsDto(
+        @ApiModelProperty("Траффик за последний час.")
         @JsonProperty("hour")
         val hour: Int,
+
+        @ApiModelProperty("Траффик за последние 5 часов.")
         @JsonProperty("fiveHours")
         val fiveHours: Int,
+
+        @ApiModelProperty("Траффик за последний день.")
         @JsonProperty("day")
         val day: Int,
+
+        @ApiModelProperty("Траффик за последнюю неделю.")
         @JsonProperty("week")
         val week: Int
 )

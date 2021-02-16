@@ -15,7 +15,7 @@ import javax.persistence.Table
 data class LoanEntity(
         @Column(name = "amount")
         val amount: Int,
-        @Column(name = "startDate")
+        @Column(name = "start_date")
         val startDate: Date,
         @Column(name = "duration")
         val duration: Date,
