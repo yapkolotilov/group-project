@@ -16,7 +16,7 @@ fun DateTime.dayInterval(): Interval {
 
 fun DateTime.monthInterval(): Interval {
     val day = this
-    val startDate = day.withDayOfMonth(0).withTimeAtStartOfDay()
+    val startDate = day.withDayOfMonth(1).withTimeAtStartOfDay()
     val endDate = day.withDayOfMonth(day.dayOfMonth().maximumValue)
     return Interval(startDate, endDate)
 }
