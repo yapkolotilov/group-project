@@ -14,7 +14,12 @@ import org.joda.time.DateTime
  * @param email Электронная почта.
  * @param loans Активные кредиты.
  * @param tariffs Тарифы.
- * @param id ID.
+ * @param contractName Договор.
+ * @param contractData Содержимое договора.
+ * @param owner На кого заключён договор.
+ * @param mac MAC-адрес.
+ * @param ip IP-адрес.
+ * @param contractNumber ID.
  */
 data class Client(
         val name: String,
@@ -23,7 +28,13 @@ data class Client(
         val phone: String,
         val email: String,
         val registeredAt: DateTime,
-        val tariffs: List<Tariff>,
         val loans: List<Loan>,
-        val id: Int = 0
+        val contractName: String,
+        val contractData: String?,
+        val owner: String,
+        val traffic: List<Traffic>,
+        val mac: String,
+        val ip: String,
+        val lastPaymentAt: DateTime,
+        val contractNumber: Int
 )

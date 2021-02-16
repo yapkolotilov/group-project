@@ -1,6 +1,10 @@
 package me.kolotilov.groupproject.presentation.output
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import io.swagger.annotations.ApiModel
+import io.swagger.annotations.ApiModelProperty
+import me.kolotilov.groupproject.database.models.TrafficEntity
+import me.kolotilov.groupproject.database.models.toTrafficEntity
 import me.kolotilov.groupproject.domain.models.Client
 import java.util.*
 
@@ -10,7 +14,6 @@ import java.util.*
  * @param name ФИО.
  * @param balance Баланс лицевого счёта.
  * @param enabled Подключён ли клиент.
- * @param tariff Тариф.
  * @param contractName Договор.
  * @param contractData Содержимое договора.
  * @param owner На кого заключён договор.
@@ -20,25 +23,67 @@ import java.util.*
  * @param loans Кредиты.
  * @param ip IP-адрес.
  */
+@ApiModel("ClientDetailsDto: Полная информация по клиенту.")
 data class ClientDetailsDto(
+        @ApiModelProperty("ФИО.")
         @JsonProperty("name")
         val name: String,
+
+        @ApiModelProperty("Баланс лицевого счёта.")
         @JsonProperty("balance")
         val balance: Int,
+
+        @ApiModelProperty("Подключён ли клиент.")
         @JsonProperty("enabled")
         val enabled: Boolean,
+
+        @ApiModelProperty("Телефон.")
         @JsonProperty("phone")
         val phone: String,
+
+        @ApiModelProperty("e-mail.")
         @JsonProperty("email")
         val email: String,
+
+        @ApiModelProperty("Дата регистрации.")
         @JsonProperty( "registeredAt")
         val registeredAt: Date,
-        @JsonProperty("tariffs")
-        val tariffs: List<TariffDto>,
+
+        @ApiModelProperty("Кредиты.")
         @JsonProperty("loans")
         val loans: List<LoanDto>,
-        @JsonProperty("id")
-        val id: Int
+
+        @ApiModelProperty("Название договора.")
+        @JsonProperty("contract_name")
+        val contractName: String,
+
+        @ApiModelProperty("Данные контракта.")
+        @JsonProperty("contract_data")
+        val contractData: String?,
+
+        @ApiModelProperty("На кого зарегистрирован договор.")
+        @JsonProperty("owner")
+        val owner: String,
+
+        @ApiModelProperty("MAC-адрес.")
+        @JsonProperty("mac")
+        val mac: String,
+
+        @ApiModelProperty("ip-адрес.")
+        @JsonProperty("ip")
+        val ip: String,
+
+        @ApiModelProperty("Дата последнего платежа.")
+        @JsonProperty("last_payment_at")
+        val lastPaymentAt: Date,
+
+        @ApiModelProperty("Трафик.")
+        @JsonProperty("traffic")
+        val traffic: List<TrafficEntity>,
+
+        @ApiModelProperty("Номер контрактаю")
+        @JsonProperty("contract_number")
+        val contractNumber: Int
 )
 
 fun Client.toClientDetailsDto() = ClientDetailsDto(
@@ -48,7 +93,13 @@ fun Client.toClientDetailsDto() = ClientDetailsDto(
         phone = phone,
         email = email,
         registeredAt = registeredAt.toDate(),
-        tariffs = tariffs.map { it.toTariffDto() },
         loans = loans.map { it.toLoanDto() },
-        id = id
+        contractName = contractName,
+        contractData = contractData,
+        owner = owner,
+        ip = ip,
+        mac = mac,
+        lastPaymentAt = lastPaymentAt.toDate(),
+        traffic = traffic.map { it.toTrafficEntity() },
+        contractNumber = contractNumber
 )
