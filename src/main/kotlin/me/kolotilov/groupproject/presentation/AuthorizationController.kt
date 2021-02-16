@@ -1,5 +1,7 @@
 package me.kolotilov.groupproject.presentation
 
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
 import me.kolotilov.groupproject.configuration.authorization.JwtUtils
 import me.kolotilov.groupproject.domain.services.UserDetailsServiceImpl
 import me.kolotilov.groupproject.presentation.input.LoginDto
@@ -28,8 +30,12 @@ class AuthorizationController {
     @Autowired
     private lateinit var jwtUtils: JwtUtils
 
+    @ApiOperation("Логин в приложениею")
     @PostMapping("login")
-    fun login(@RequestBody request: LoginDto): TokenDto {
+    fun login(
+        @ApiParam("Логин и пароль.")
+        @RequestBody request: LoginDto
+    ): TokenDto {
         return try {
             authenticationManager.authenticate(UsernamePasswordAuthenticationToken(request.username, request.password))
             val userDetails = userDetailsService.loadUserByUsername(request.username)

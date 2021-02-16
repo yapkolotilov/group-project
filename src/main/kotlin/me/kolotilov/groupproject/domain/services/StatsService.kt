@@ -33,12 +33,12 @@ private class StatsServiceImpl : StatsService {
         val dayInterval = Interval(DateTime.now(), DateTime.now().minusDays(1))
         val weekInterval = Interval(DateTime.now(), DateTime.now().minusWeeks(1))
 
-        for (traffic in client.tariffs.map { it.traffic }) {
-            hour += sumTraffic(hourInterval, traffic)
-            fiveHours += sumTraffic(fiveHoursInterval, traffic)
-            day += sumTraffic(dayInterval, traffic)
-            week += sumTraffic(weekInterval, traffic)
-        }
+        val traffic = client.traffic
+        hour += sumTraffic(hourInterval, traffic)
+        fiveHours += sumTraffic(fiveHoursInterval, traffic)
+        day += sumTraffic(dayInterval, traffic)
+        week += sumTraffic(weekInterval, traffic)
+
         return TrafficStats(hour, fiveHours, day, week)
     }
 
@@ -55,9 +55,7 @@ private class StatsServiceImpl : StatsService {
     override fun getPaymentStats(clients: List<Client>): PaymentStats {
         val interval = DateTime.now().monthInterval()
         val paid = clients.count { client ->
-            client.tariffs.all {
-                interval.contains(it.lastPaymentAt)
-            }
+            interval.contains(client.lastPaymentAt)
         }
         val unpaid = clients.size - paid
         return PaymentStats(paid, unpaid)
