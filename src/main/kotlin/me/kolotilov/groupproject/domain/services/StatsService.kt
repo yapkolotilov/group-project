@@ -49,7 +49,7 @@ private class StatsServiceImpl : StatsService {
             val startDate = day.withTime(0, 0, 0, 0)
             val interval = day.dayInterval()
             startDate to clients.count { interval.contains(it.registeredAt) }
-        }
+        }.sortedBy { it.first }
     }
 
     override fun getPaymentStats(clients: List<Client>): PaymentStats {
