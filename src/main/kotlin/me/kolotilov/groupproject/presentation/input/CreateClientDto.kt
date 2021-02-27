@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import me.kolotilov.groupproject.domain.models.Client
+import me.kolotilov.groupproject.domain.models.Tariff
 import org.joda.time.DateTime
 
 @ApiModel("CreateClientDto: Создание клиента.")
@@ -49,7 +50,7 @@ data class CreateClientDto(
     val contractNumber: Int,
 )
 
-fun CreateClientDto.toClient() = Client(
+fun CreateClientDto.toClient(tariff: Tariff) = Client(
     name = name,
     balance = balance,
     phone = phone,
@@ -64,5 +65,6 @@ fun CreateClientDto.toClient() = Client(
     registeredAt = DateTime.now(),
     lastPaymentAt = DateTime.now(),
     loans = emptyList(),
-    traffic = emptyList()
+    traffic = emptyList(),
+    tariff = tariff
 )

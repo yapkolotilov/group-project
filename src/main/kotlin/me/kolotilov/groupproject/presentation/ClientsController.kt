@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
 import me.kolotilov.groupproject.domain.models.Role
 import me.kolotilov.groupproject.domain.services.ClientService
+import me.kolotilov.groupproject.domain.services.TariffService
 import me.kolotilov.groupproject.domain.services.UserService
 import me.kolotilov.groupproject.presentation.input.*
 import me.kolotilov.groupproject.presentation.output.ClientDetailsDto
@@ -23,6 +24,8 @@ private class ClientsController {
     private lateinit var clientService: ClientService
     @Autowired
     private lateinit var userService: UserService
+    @Autowired
+    private lateinit var tariffService: TariffService
 
 
     @ApiOperation("Возвращает всех клиентов в системе.")
@@ -68,7 +71,7 @@ private class ClientsController {
         @ApiParam("Данные клиента.")
         @RequestBody client: CreateClientDto
     ): ClientDetailsDto {
-        return clientService.create(client.toClient()).toClientDetailsDto()
+        return clientService.create(client.toClient(tariffService.getAll().first())).toClientDetailsDto()
     }
 
     @ApiOperation("Меняет данные клиента.")
