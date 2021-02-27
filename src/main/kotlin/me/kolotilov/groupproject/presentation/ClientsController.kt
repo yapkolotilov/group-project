@@ -2,14 +2,11 @@ package me.kolotilov.groupproject.presentation
 
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
-import me.kolotilov.groupproject.domain.models.Client
 import me.kolotilov.groupproject.domain.models.Role
 import me.kolotilov.groupproject.domain.services.ClientService
+import me.kolotilov.groupproject.domain.services.TariffService
 import me.kolotilov.groupproject.domain.services.UserService
-import me.kolotilov.groupproject.presentation.input.EditClientDto
-import me.kolotilov.groupproject.presentation.input.GiveLoanDto
-import me.kolotilov.groupproject.presentation.input.apply
-import me.kolotilov.groupproject.presentation.input.toLoan
+import me.kolotilov.groupproject.presentation.input.*
 import me.kolotilov.groupproject.presentation.output.ClientDetailsDto
 import me.kolotilov.groupproject.presentation.output.ClientOverviewDto
 import me.kolotilov.groupproject.presentation.output.toClientDetailsDto
@@ -27,6 +24,8 @@ private class ClientsController {
     private lateinit var clientService: ClientService
     @Autowired
     private lateinit var userService: UserService
+    @Autowired
+    private lateinit var tariffService: TariffService
 
 
     @ApiOperation("Возвращает всех клиентов в системе.")
@@ -67,6 +66,14 @@ private class ClientsController {
         return clientService.search(query).map { it.toClientOverview() }
     }
 
+    @ApiOperation("Создаёт нового клиента.")
+    fun create(
+        @ApiParam("Данные клиента.")
+        @RequestBody client: CreateClientDto
+    ): ClientDetailsDto {
+        return clientService.create(client.toClient(tariffService.getAll().first())).toClientDetailsDto()
+    }
+
     @ApiOperation("Меняет данные клиента.")
     @PostMapping("/{id}")
     fun edit(
@@ -76,11 +83,11 @@ private class ClientsController {
         @ApiParam("Новые данные клиента.")
         @RequestBody newClient: EditClientDto,
         @CurrentSecurityContext(expression = "authentication?.name") username: String
-    ): Client {
+    ): ClientDetailsDto {
         val user = userService.getByUsername(username)!!
         restrictRole(user, newClient.balance, Role.ADMIN)
         val client = clientService.get(id)
-        return clientService.update(client.apply(newClient))
+        return clientService.update(client.apply(newClient)).toClientDetailsDto()
     }
 
     @ApiOperation("Даёт пользователю кредит.")
@@ -91,12 +98,12 @@ private class ClientsController {
 
         @ApiParam("Данные кредита.")
         @RequestBody loan: GiveLoanDto
-    ): Client {
+    ): ClientDetailsDto {
         val client = clientService.get(id)
         val newClient = client.copy(
             loans = client.loans + loan.toLoan()
         )
-        return clientService.update(newClient)
+        return clientService.update(newClient).toClientDetailsDto()
     }
 
     @ApiOperation("Забирает кредит у пользователя.")
@@ -107,11 +114,11 @@ private class ClientsController {
 
         @ApiParam("ID Кредита.")
         @PathVariable("loanId") loanId: Int
-    ): Client {
+    ): ClientDetailsDto {
         val client = clientService.get(id)
         val newClient = client.copy(
             loans = client.loans.filter { it.id != loanId }
         )
-        return clientService.update(newClient)
+        return clientService.update(newClient).toClientDetailsDto()
     }
 }

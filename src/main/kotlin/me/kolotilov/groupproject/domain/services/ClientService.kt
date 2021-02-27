@@ -18,7 +18,7 @@ interface ClientService {
 
     fun get(id: Int): Client
 
-    fun create(client: Client)
+    fun create(client: Client): Client
 
     fun createAll(vararg clients: Client)
 
@@ -49,8 +49,8 @@ private class ClientServiceImpl : ClientService {
         return clientRepository.findById(id).get().toClient()
     }
 
-    override fun create(client: Client) {
-        clientRepository.save(client.toClientEntity())
+    override fun create(client: Client): Client {
+        return clientRepository.save(client.toClientEntity()).toClient()
     }
 
     override fun createAll(vararg clients: Client) {
