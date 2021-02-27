@@ -1,7 +1,6 @@
 package me.kolotilov.groupproject.database.models
 
 import me.kolotilov.groupproject.domain.models.Client
-import me.kolotilov.groupproject.domain.models.Tariff
 import me.kolotilov.groupproject.utils.toDateTime
 import java.util.*
 import javax.persistence.*
@@ -42,10 +41,7 @@ data class ClientEntity(
         val traffic: List<TrafficEntity>,
         @Id
         @Column(name = "contract_number")
-        val contractNumber: Int = 0,
-        @ManyToOne
-        @JoinColumn(name = "tariff_name")
-        val tariff: TariffEntity
+        val contractNumber: Int = 0
 )
 
 fun ClientEntity.toClient() = Client(
@@ -63,8 +59,7 @@ fun ClientEntity.toClient() = Client(
         mac = mac,
         lastPaymentAt = lastPaymentAt.toDateTime(),
         traffic = traffic.map { it.toTraffic() },
-        contractNumber = contractNumber,
-        tariff = tariff.toTariff()
+        contractNumber = contractNumber
 )
 
 fun Client.toClientEntity() = ClientEntity(
@@ -82,6 +77,5 @@ fun Client.toClientEntity() = ClientEntity(
         mac = mac,
         lastPaymentAt = lastPaymentAt.toDate(),
         traffic = traffic.map { it.toTrafficEntity() },
-        contractNumber = contractNumber,
-        tariff = tariff.toTariffEntity()
+        contractNumber = contractNumber
 )

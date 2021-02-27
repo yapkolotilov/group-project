@@ -20,7 +20,6 @@ import org.joda.time.DateTime
  * @param mac MAC-адрес.
  * @param ip IP-адрес.
  * @param contractNumber ID.
- * @param tariff Тариф.
  */
 data class Client(
         val name: String,
@@ -37,6 +36,5 @@ data class Client(
         val mac: String,
         val ip: String,
         val lastPaymentAt: DateTime,
-        val contractNumber: Int,
-        val tariff: Tariff
+        val contractNumber: Int
 )
