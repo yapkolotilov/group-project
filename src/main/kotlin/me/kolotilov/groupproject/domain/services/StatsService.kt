@@ -28,10 +28,10 @@ private class StatsServiceImpl : StatsService {
         var day = 0
         var week = 0
 
-        val hourInterval = Interval(DateTime.now(), DateTime.now().minusHours(1))
-        val fiveHoursInterval = Interval(DateTime.now(), DateTime.now().minusHours(5))
-        val dayInterval = Interval(DateTime.now(), DateTime.now().minusDays(1))
-        val weekInterval = Interval(DateTime.now(), DateTime.now().minusWeeks(1))
+        val hourInterval = Interval(DateTime.now().minusHours(1), DateTime.now())
+        val fiveHoursInterval = Interval(DateTime.now().minusHours(5), DateTime.now())
+        val dayInterval = Interval(DateTime.now().minusDays(1), DateTime.now())
+        val weekInterval = Interval(DateTime.now().minusWeeks(1), DateTime.now())
 
         val traffic = client.traffic
         hour += sumTraffic(hourInterval, traffic)
