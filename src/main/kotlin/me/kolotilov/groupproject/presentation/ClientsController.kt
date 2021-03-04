@@ -64,6 +64,7 @@ private class ClientsController {
     }
 
     @ApiOperation("Создаёт нового клиента.")
+    @PostMapping
     fun create(
         @ApiParam("Данные клиента.")
         @RequestBody client: CreateClientDto
