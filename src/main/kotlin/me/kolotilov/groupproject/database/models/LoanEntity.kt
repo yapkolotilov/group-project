@@ -5,10 +5,7 @@ import me.kolotilov.groupproject.utils.toDate
 import me.kolotilov.groupproject.utils.toDateTime
 import me.kolotilov.groupproject.utils.toDuration
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "loan")
@@ -20,6 +17,7 @@ data class LoanEntity(
         @Column(name = "duration")
         val duration: Date,
         @Id
+        @GeneratedValue
         @Column(name = "id")
         val id: Int
 )

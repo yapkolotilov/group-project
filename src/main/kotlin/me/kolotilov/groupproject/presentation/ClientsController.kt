@@ -105,7 +105,7 @@ private class ClientsController {
     }
 
     @ApiOperation("Забирает кредит у пользователя.")
-    @PostMapping("{id}/retrieveCredit/{loanId}")
+    @DeleteMapping("{id}/retrieveCredit/{loanId}")
     fun retrieveCredit(
         @ApiParam("ID пользователя.")
         @PathVariable("id") id: Int,
