@@ -81,9 +81,13 @@ data class ClientDetailsDto(
         @JsonProperty("traffic")
         val traffic: List<TrafficEntity>,
 
-        @ApiModelProperty("Номер контрактаю")
+        @ApiModelProperty("Номер контракта")
         @JsonProperty("contract_number")
-        val contractNumber: Int
+        val contractNumber: Int,
+
+        @ApiModelProperty("Тариф")
+        @JsonProperty("tariff")
+        val tariff: TariffDto
 )
 
 fun Client.toClientDetailsDto() = ClientDetailsDto(
@@ -101,5 +105,6 @@ fun Client.toClientDetailsDto() = ClientDetailsDto(
         mac = mac,
         lastPaymentAt = lastPaymentAt.toDate(),
         traffic = traffic.map { it.toTrafficEntity() },
-        contractNumber = contractNumber
+        contractNumber = contractNumber,
+        tariff = tariff.toTariffDto()
 )

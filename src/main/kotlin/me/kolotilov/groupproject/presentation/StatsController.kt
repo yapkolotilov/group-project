@@ -4,12 +4,9 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
 import me.kolotilov.groupproject.domain.services.ClientService
 import me.kolotilov.groupproject.domain.services.StatsService
-import me.kolotilov.groupproject.presentation.output.PaymentStatsDto
-import me.kolotilov.groupproject.presentation.output.TrafficStatsDto
-import me.kolotilov.groupproject.presentation.output.toPaymentStatsDto
-import me.kolotilov.groupproject.presentation.output.toTrafficStatsDto
+import me.kolotilov.groupproject.domain.services.TariffService
+import me.kolotilov.groupproject.presentation.output.*
 import me.kolotilov.groupproject.utils.replaceFirst
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -18,13 +15,11 @@ import java.util.*
 
 @RestController
 @RequestMapping("/stats")
-class StatsController {
-
-    @Autowired
-    private lateinit var statsService: StatsService
-
-    @Autowired
-    private lateinit var clientService: ClientService
+class StatsController(
+    private val statsService: StatsService,
+    private val clientService: ClientService,
+    private val tariffService: TariffService
+) {
 
     @ApiOperation("Возвращает статистику по оплате.")
     @GetMapping("/payment")
@@ -45,5 +40,11 @@ class StatsController {
     @GetMapping("/newClients")
     fun newClientsStats(): List<Pair<Date, Int>> {
         return statsService.getNewClientsStats(clientService.getAll()).map { it.replaceFirst { it.toDate() } }
+    }
+
+    @ApiOperation("Возвращает все доступные тарифы.")
+    @GetMapping("/tariffs")
+    fun getTariffs(): List<TariffDto> {
+        return tariffService.getAll().map { it.toTariffDto() }
     }
 }

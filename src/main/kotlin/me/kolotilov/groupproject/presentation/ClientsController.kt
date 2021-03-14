@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
 import me.kolotilov.groupproject.domain.models.Role
 import me.kolotilov.groupproject.domain.services.ClientService
+import me.kolotilov.groupproject.domain.services.TariffService
 import me.kolotilov.groupproject.domain.services.UserService
 import me.kolotilov.groupproject.presentation.input.*
 import me.kolotilov.groupproject.presentation.output.ClientDetailsDto
@@ -11,19 +12,16 @@ import me.kolotilov.groupproject.presentation.output.ClientOverviewDto
 import me.kolotilov.groupproject.presentation.output.toClientDetailsDto
 import me.kolotilov.groupproject.presentation.output.toClientOverview
 import me.kolotilov.groupproject.utils.restrictRole
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.annotation.CurrentSecurityContext
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/clients")
-private class ClientsController {
-
-    @Autowired
-    private lateinit var clientService: ClientService
-    @Autowired
-    private lateinit var userService: UserService
-
+private class ClientsController(
+    private val clientService: ClientService,
+    private val userService: UserService,
+    private val tariffService: TariffService
+) {
 
     @ApiOperation("Возвращает всех клиентов в системе.")
     @GetMapping
@@ -69,7 +67,8 @@ private class ClientsController {
         @ApiParam("Данные клиента.")
         @RequestBody client: CreateClientDto
     ): ClientDetailsDto {
-        return clientService.create(client.toClient()).toClientDetailsDto()
+        val tariff = tariffService.getByName(client.tariff)
+        return clientService.create(client.toClient(tariff)).toClientDetailsDto()
     }
 
     @ApiOperation("Меняет данные клиента.")

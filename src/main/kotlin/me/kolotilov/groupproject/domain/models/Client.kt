@@ -29,6 +29,7 @@ data class Client(
         val email: String,
         val registeredAt: DateTime,
         val loans: List<Loan>,
+        val tariff: Tariff,
         val contractName: String,
         val contractData: String?,
         val owner: String,

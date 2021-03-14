@@ -21,6 +21,9 @@ data class ClientEntity(
         val email: String,
         @Column(name = "registered_at")
         val registeredAt: Date,
+        @ManyToOne
+        @JoinColumn(name = "tariff_name")
+        val tariff: TariffEntity,
         @OneToMany(cascade = [CascadeType.ALL])
         @JoinColumn(name = "client_id")
         val loans: List<LoanEntity>,
@@ -57,6 +60,7 @@ fun ClientEntity.toClient() = Client(
         owner = owner,
         ip = ip,
         mac = mac,
+        tariff = tariff.toTariff(),
         lastPaymentAt = lastPaymentAt.toDateTime(),
         traffic = traffic.map { it.toTraffic() },
         contractNumber = contractNumber
@@ -75,6 +79,7 @@ fun Client.toClientEntity() = ClientEntity(
         owner = owner,
         ip = ip,
         mac = mac,
+        tariff = tariff.toTariffEntity(),
         lastPaymentAt = lastPaymentAt.toDate(),
         traffic = traffic.map { it.toTrafficEntity() },
         contractNumber = contractNumber
