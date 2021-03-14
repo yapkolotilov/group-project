@@ -17,7 +17,7 @@ private class DatabaseMockInitializer(
 
     @PostConstruct
     fun fillData() {
-        fillDataImpl()
+//        fillDataImpl()
     }
 
     private fun fillDataImpl() {
