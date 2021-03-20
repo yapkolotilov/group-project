@@ -29,7 +29,8 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
         "/swagger-resources/**",
         "/swagger-ui.html",
         "/v2/api-docs",
-        "/webjars/**"
+        "/webjars/**",
+        "/favicon.ico"
     )
 
     @Autowired
