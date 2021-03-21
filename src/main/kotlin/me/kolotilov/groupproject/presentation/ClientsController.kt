@@ -84,7 +84,8 @@ private class ClientsController(
         val user = userService.getByUsername(username)!!
         restrictRole(user, newClient.balance, Role.ADMIN)
         val client = clientService.get(id)
-        return clientService.update(client.apply(newClient)).toClientDetailsDto()
+        val tariff = newClient.tariff?.let { tariffService.getByName(newClient.tariff) }
+        return clientService.update(client.apply(newClient, tariff)).toClientDetailsDto()
     }
 
     @ApiOperation("Даёт пользователю кредит.")

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import me.kolotilov.groupproject.domain.models.Client
+import me.kolotilov.groupproject.domain.models.Tariff
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Positive
 
@@ -27,12 +28,17 @@ data class EditClientDto(
         @ApiModelProperty("Новый ip-адрес.")
         @JsonProperty("ip")
         @Pattern(regexp = "\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.|\$)){4}\\b", message = "Неправильный формат ip-адреса")
-        val ip: String? = null
+        val ip: String? = null,
+
+        @ApiModelProperty("Название тарифа.")
+        @JsonProperty("tariff")
+        val tariff: String? = null
 )
 
-fun Client.apply(editClientDto: EditClientDto) = copy(
+fun Client.apply(editClientDto: EditClientDto, tariff: Tariff?) = copy(
     enabled = editClientDto.enabled ?: enabled,
     balance = editClientDto.balance ?: balance,
     mac = editClientDto.mac ?: mac,
-    ip = editClientDto.ip ?: ip
+    ip = editClientDto.ip ?: ip,
+    tariff = tariff ?: this.tariff
 )
