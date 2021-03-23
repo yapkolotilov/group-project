@@ -8,5 +8,8 @@ import io.swagger.annotations.ApiModelProperty
 data class TokenDto(
     @ApiModelProperty("Токен.")
     @JsonProperty("token")
-    val token: String
+    val token: String,
+    @ApiModelProperty("Роль.")
+    @JsonProperty("role")
+    val role: String
 )

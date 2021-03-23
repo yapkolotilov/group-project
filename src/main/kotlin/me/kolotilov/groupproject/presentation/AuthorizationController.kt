@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
 import me.kolotilov.groupproject.configuration.authorization.JwtUtils
 import me.kolotilov.groupproject.domain.services.UserDetailsServiceImpl
+import me.kolotilov.groupproject.domain.services.UserService
 import me.kolotilov.groupproject.presentation.input.LoginDto
 import me.kolotilov.groupproject.presentation.output.TokenDto
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,6 +29,8 @@ class AuthorizationController {
     @Qualifier(UserDetailsServiceImpl.QUALIFIER)
     private lateinit var userDetailsService: UserDetailsService
     @Autowired
+    private lateinit var userService: UserService
+    @Autowired
     private lateinit var jwtUtils: JwtUtils
 
     @ApiOperation("Логин в приложениею")
@@ -40,7 +43,8 @@ class AuthorizationController {
             authenticationManager.authenticate(UsernamePasswordAuthenticationToken(request.username, request.password))
             val userDetails = userDetailsService.loadUserByUsername(request.username)
             val jwt = jwtUtils.generateToken(userDetails)
-            TokenDto(jwt)
+            val user = userService.getByUsername(request.username)
+            TokenDto(jwt, user?.role.toString())
         } catch (e: Exception) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Неправильные логин или пароль")
         }

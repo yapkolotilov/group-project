@@ -42,6 +42,24 @@ class StatsController(
         return statsService.getNewClientsStats(clientService.getAll()).map { it.replaceFirst { it.toDate() } }
     }
 
+    @ApiOperation("Возвращает статистику по прибыли с клиентов.")
+    @GetMapping("/payedClientsIncome")
+    fun payedClientsStats(): List<Pair<Int, Int>> {
+        return statsService.getPayedClientsStats(clientService.getAll()).map { it.replaceFirst { it.months } }
+    }
+
+    @ApiOperation("Возвращает статистику по недополученной прибыли с клиентов.")
+    @GetMapping("/notPayedClientsIncome")
+    fun notPayedClientsStats(): List<Pair<Int, Int>> {
+        return statsService.getNotPayedClientsStats(clientService.getAll()).map { it.replaceFirst { it.months } }
+    }
+
+    @ApiOperation("Возвращает статистику по потенциальной прибыли с клиентов.")
+    @GetMapping("/totalClientsIncome")
+    fun totalClientsIncomes(): List<Pair<Int, Int>> {
+        return statsService.getTotalClientsStats(clientService.getAll()).map { it.replaceFirst { it.months } }
+    }
+
     @ApiOperation("Возвращает все доступные тарифы.")
     @GetMapping("/tariffs")
     fun getTariffs(): List<TariffDto> {
