@@ -6,6 +6,7 @@ import me.kolotilov.groupproject.domain.models.Traffic
 import me.kolotilov.groupproject.domain.models.TrafficStats
 import me.kolotilov.groupproject.utils.dayInterval
 import me.kolotilov.groupproject.utils.monthInterval
+import mu.KotlinLogging
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.springframework.stereotype.Service
@@ -45,7 +46,7 @@ private class StatsServiceImpl : StatsService {
     override fun getNewClientsStats(clients: List<Client>): List<Pair<DateTime, Int>> {
         val days = DateTime.now().dayOfMonth().maximumValue
         return List(days) { offset ->
-            val day = DateTime.now().minusDays(1 + offset)
+            val day = DateTime.now().minusDays(offset)
             val startDate = day.withTime(0, 0, 0, 0)
             val interval = day.dayInterval()
             startDate to clients.count { interval.contains(it.registeredAt) }
