@@ -27,7 +27,6 @@ class JwtRequestFilter : OncePerRequestFilter() {
     @Autowired
     private lateinit var jwtUtils: JwtUtils
 
-
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -51,6 +50,8 @@ class JwtRequestFilter : OncePerRequestFilter() {
                 SecurityContextHolder.getContext().authentication = token
             }
         }
+        logger.debug("REQUEST: $request")
+        logger.debug("RESPONSE: $response")
         filterChain.doFilter(request, response)
     }
 }

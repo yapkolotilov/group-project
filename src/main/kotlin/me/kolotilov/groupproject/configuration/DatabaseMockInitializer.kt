@@ -17,10 +17,27 @@ private class DatabaseMockInitializer(
 
     @PostConstruct
     fun fillData() {
-//        fillDataImpl()
+        fillDataImpl()
     }
 
     private fun fillDataImpl() {
+        userService.apply {
+            clear()
+            createAll(
+                User(
+                    "admin",
+                    "admin",
+                    Role.ADMIN
+                ),
+                User(
+                    "monty",
+                    "monty",
+                    Role.MONTY
+                )
+            )
+        }
+        return
+
         val tariffs = arrayOf(
             Tariff(
                 name = "GePON-10",
@@ -134,22 +151,6 @@ private class DatabaseMockInitializer(
                     loans = emptyList(),
                     contractNumber = 1340
                 ),
-            )
-        }
-
-        userService.apply {
-            clear()
-            createAll(
-                User(
-                    "admin",
-                    "admin",
-                    Role.ADMIN
-                ),
-                User(
-                    "monty",
-                    "monty",
-                    Role.MONTY
-                )
             )
         }
     }
