@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import me.kolotilov.groupproject.domain.models.Client
 import me.kolotilov.groupproject.domain.models.Tariff
+import me.kolotilov.groupproject.domain.models.Traffic
 import me.kolotilov.groupproject.utils.toDateTime
 import org.joda.time.DateTime
 import java.util.*
@@ -61,7 +62,11 @@ data class CreateClientDto(
 
     @ApiModelProperty("lastPaymentAt")
     @JsonProperty("lastPaymentAt")
-    val lastPaymentAt: Date? = null
+    val lastPaymentAt: Date? = null,
+
+    @ApiModelProperty("Трафик")
+    @JsonProperty("traffic")
+    val traffic: List<Pair<Date, Int>>? = null
 )
 
 fun CreateClientDto.toClient(tariff: Tariff) = Client(
@@ -79,6 +84,6 @@ fun CreateClientDto.toClient(tariff: Tariff) = Client(
     registeredAt = registeredAt?.toDateTime() ?: DateTime.now(),
     lastPaymentAt = lastPaymentAt?.toDateTime() ?: DateTime.now(),
     loans = emptyList(),
-    traffic = emptyList(),
+    traffic = traffic?.map { Traffic(it.first.toDateTime(), it.second, -1) } ?: emptyList(),
     tariff = tariff
 )
