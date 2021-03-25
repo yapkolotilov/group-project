@@ -72,7 +72,6 @@ private class DatabaseMockInitializer(
         tariffService.apply {
             createAll(*tariffs)
         }
-        return
 
         clientService.apply {
             createAll(
