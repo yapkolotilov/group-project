@@ -36,7 +36,6 @@ private class DatabaseMockInitializer(
                 )
             )
         }
-        return
 
         val tariffs = arrayOf(
             Tariff(
@@ -75,6 +74,7 @@ private class DatabaseMockInitializer(
             clear()
             createAll(*tariffs)
         }
+        return
 
         clientService.apply {
             clear()
