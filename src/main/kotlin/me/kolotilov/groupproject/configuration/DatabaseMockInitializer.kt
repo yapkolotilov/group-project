@@ -22,7 +22,6 @@ private class DatabaseMockInitializer(
 
     private fun fillDataImpl() {
         userService.apply {
-            clear()
             createAll(
                 User(
                     "admin",
@@ -71,13 +70,11 @@ private class DatabaseMockInitializer(
         )
 
         tariffService.apply {
-            clear()
             createAll(*tariffs)
         }
         return
 
         clientService.apply {
-            clear()
             createAll(
                 Client(
                     name = "Колотилов Ярослав",
